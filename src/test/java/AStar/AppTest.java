@@ -1,4 +1,4 @@
-package LarsB;
+package AStar;
 
 import org.junit.Test;
 
