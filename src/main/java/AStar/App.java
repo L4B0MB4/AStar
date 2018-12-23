@@ -20,6 +20,7 @@ public final class App {
         NodeFactory.setDistance(nodes, new Point(9, 1));
 
         for (int i = 0; i < nodes.size(); i++) {
+            // System.out.printf("%4.1f ", nodes.get(i).getWeight());
             System.out.printf("%4.1f ", nodes.get(i).getDistance());
             if (i + 1 < nodes.size()) {
                 if (nodes.get(i).getPosition().y != nodes.get(i + 1).getPosition().y) {
@@ -27,6 +28,8 @@ public final class App {
                 }
             }
         }
-
+        System.out.println();
+        Astar astar = new Astar();
+        astar.start(nodes);
     }
 }

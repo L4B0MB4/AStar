@@ -34,6 +34,14 @@ public class DataSetReader {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+
+        for (int i = 0; i < arrayList.size(); i++) {
+            for (int j = 0; j < arrayList.get(i).size(); j++) {
+                System.out.print(arrayList.get(i).get(j) + " ");
+            }
+            System.out.println();
+        }
+
         return arrayList;
 
     }

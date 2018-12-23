@@ -9,11 +9,10 @@ public class NodeFactory {
         ArrayList<Node> nodes = new ArrayList<>();
         for (int y = 0; y < dataset.size(); y++) {
             for (int x = 0; x < dataset.get(y).size(); x++) {
-                Node n = new Node(new Point(x, y), dataset.get(x).get(y));
+                Node n = new Node(new Point(x, y), dataset.get(y).get(x));
                 nodes.add(n);
             }
         }
-
         return nodes;
     }
 
