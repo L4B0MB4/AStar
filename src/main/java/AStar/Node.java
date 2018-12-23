@@ -9,6 +9,7 @@ public class Node {
     private double distance;
     private double currentWayWeight = Double.MAX_VALUE;
     public Node wentTrough = null;
+    public boolean success = false;
 
     public Node(Point position, int weight) {
         this.weight = weight;
@@ -44,6 +45,13 @@ public class Node {
             return weight + wentTrough.getCompleteWeight();
         } else {
             return weight;
+        }
+    }
+
+    public void markSucess() {
+        this.success = true;
+        if (this.wentTrough != null) {
+            this.wentTrough.markSucess();
         }
     }
 }

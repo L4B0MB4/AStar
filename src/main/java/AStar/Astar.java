@@ -41,11 +41,10 @@ public class Astar {
     int x = 0;
 
     public void walkThrough(Node start, ArrayList<Node> nodes, Node end) {
-        if (start.getDistance() == 0)
+        if (start.getDistance() == 0) {
+            start.markSucess();
             return;
-        if (x == 5)
-            x = 0;
-        x++;
+        }
         ArrayList<Node> neighbours = new ArrayList<>();
         Point startPosition = start.getPosition();
         getNeighbours(neighbours, startPosition, nodes);
@@ -53,6 +52,7 @@ public class Astar {
         closed.add(start);
         open.remove(start);
         Node next = getNextNode();
+        print(nodes);
         walkThrough(next, nodes, end);
     }
 
@@ -86,6 +86,27 @@ public class Astar {
             }
         }
         return null;
+    }
+
+    public void print(ArrayList<Node> nodes) {
+
+        System.out.println();
+        System.out.println();
+        for (int i = 0; i < nodes.size(); i++) {
+            if (nodes.get(i).wentTrough == null)
+                System.out.printf("%4.1f ", nodes.get(i).getWeight());
+            else if (nodes.get(i).success)
+                System.out.printf(" !   ", nodes.get(i).getWeight());
+            else
+                System.out.printf(" x   ", nodes.get(i).getWeight());
+            // System.out.printf("%4.1f ", nodes.get(i).getDistance());
+            if (i + 1 < nodes.size()) {
+                if (nodes.get(i).getPosition().y != nodes.get(i + 1).getPosition().y) {
+                    System.out.println();
+                }
+            }
+        }
+        System.out.println();
     }
 
 }

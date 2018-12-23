@@ -31,5 +31,6 @@ public final class App {
         System.out.println();
         Astar astar = new Astar();
         astar.start(nodes);
+        astar.print(nodes);
     }
 }
