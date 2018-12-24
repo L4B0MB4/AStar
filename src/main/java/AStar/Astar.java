@@ -48,8 +48,8 @@ public class Astar {
         checkNeighbours(neighbours, start);
         closed.add(start);
         open.remove(start);
-        Node next = getNextNode();
         print(nodes);
+        Node next = getNextNode();
         walkThrough(next, nodes, end);
     }
 
@@ -96,7 +96,6 @@ public class Astar {
                 System.out.printf(" !   ", nodes.get(i).getWeight());
             else
                 System.out.printf(" x   ", nodes.get(i).getWeight());
-            // System.out.printf("%4.1f ", nodes.get(i).getDistance());
             if (i + 1 < nodes.size()) {
                 if (nodes.get(i).getPosition().y != nodes.get(i + 1).getPosition().y) {
                     System.out.println();
