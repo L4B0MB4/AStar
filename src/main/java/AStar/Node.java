@@ -63,7 +63,7 @@ public class Node {
         if (this.wentTrough != null) {
             return 1 + this.wentTrough.getStepsWalked();
         } else {
-            return 1;
+            return 0;
         }
     }
 }

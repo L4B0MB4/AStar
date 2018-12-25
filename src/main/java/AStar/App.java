@@ -33,6 +33,7 @@ public final class App {
         astar.start(nodes);
         astar.print(nodes);
         System.out.println();
+
         System.out.println();
         for (int i = 0; i < nodes.size(); i++) {
             // System.out.printf("%4.1f ", nodes.get(i).getWeight());

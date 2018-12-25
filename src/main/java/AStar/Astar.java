@@ -33,6 +33,7 @@ public class Astar {
         Node start = getNode(2, 14, nodes);
         Node end = getNode(9, 1, nodes);
         walkThrough(start, nodes, end);
+        System.out.println(end.getCompleteWeight());
     }
 
     public void walkThrough(Node start, ArrayList<Node> nodes, Node end) {
@@ -59,14 +60,14 @@ public class Astar {
         if (currentSteps < lastSteps) {
             for (Node n : nodes) {
                 if (!closed.contains(n)) {
-                    n.setWeight(n.getWeight() / 1.1);
+                    n.setWeight(n.getWeight() / Math.pow(1.1, Math.abs(currentSteps - lastSteps)));
                 }
             }
 
         } else if (currentSteps > lastSteps) {
             for (Node n : nodes) {
                 if (!closed.contains(n)) {
-                    n.setWeight(n.getWeight() * 1.1);
+                    n.setWeight(n.getWeight() * Math.pow(1.1, Math.abs(currentSteps - lastSteps)));
                 }
             }
         }
