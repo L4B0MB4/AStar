@@ -4,7 +4,7 @@ import java.awt.Point;
 
 public class Node {
 
-    private int weight;
+    private double weight;
     private Point position;
     private double distance;
     private double currentWayWeight = Double.MAX_VALUE;
@@ -52,6 +52,18 @@ public class Node {
         this.success = true;
         if (this.wentTrough != null) {
             this.wentTrough.markSucess();
+        }
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public int getStepsWalked() {
+        if (this.wentTrough != null) {
+            return 1 + this.wentTrough.getStepsWalked();
+        } else {
+            return 1;
         }
     }
 }

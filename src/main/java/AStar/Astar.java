@@ -35,13 +35,12 @@ public class Astar {
         walkThrough(start, nodes, end);
     }
 
-    int x = 0;
-
     public void walkThrough(Node start, ArrayList<Node> nodes, Node end) {
         if (start.getDistance() == 0) {
             start.markSucess();
             return;
         }
+        increaseWeight(nodes, start);
         ArrayList<Node> neighbours = new ArrayList<>();
         Point startPosition = start.getPosition();
         getNeighbours(neighbours, startPosition, nodes);
@@ -51,6 +50,27 @@ public class Astar {
         print(nodes);
         Node next = getNextNode();
         walkThrough(next, nodes, end);
+    }
+
+    private int lastSteps = 0;
+
+    private void increaseWeight(ArrayList<Node> nodes, Node currentNode) {
+        int currentSteps = currentNode.getStepsWalked() / 5;
+        if (currentSteps < lastSteps) {
+            for (Node n : nodes) {
+                if (!closed.contains(n)) {
+                    n.setWeight(n.getWeight() / 1.1);
+                }
+            }
+
+        } else if (currentSteps > lastSteps) {
+            for (Node n : nodes) {
+                if (!closed.contains(n)) {
+                    n.setWeight(n.getWeight() * 1.1);
+                }
+            }
+        }
+        lastSteps = currentSteps;
     }
 
     public Node getNextNode() {
