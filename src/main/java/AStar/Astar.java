@@ -9,23 +9,27 @@ public class Astar {
     public List<Node> open = new ArrayList<>();
     public ArrayList<Node> closed = new ArrayList<>();
 
-    public double getCost(Node to) {
-        return to.getCompleteWeight() + to.getDistance();
-    }
 
+    /**
+     * 
+     * @param neighbours
+     * @param through
+     */
     public void checkNeighbours(ArrayList<Node> neighbours, Node through) {
         for (int i = 0; i < neighbours.size(); i++) {
             Node n = neighbours.get(i);
             if (closed.contains(n)) {
                 continue;
             }
-            if (n.getCurrentWayWeight() > getCost(n)) {
-                n.setCurrentWayWeight(getCost(n));
+            System.out.println(n.getCost());
+            System.out.println( n.getCostThrough(through));
+            if (n.getCost() > n.getCostThrough(through) || n.wentTrough == null) {
                 n.wentTrough = through;
             }
             if (!open.contains(n)) {
                 open.add(n);
             }
+            n.updateCombinedWeight();
         }
     }
 
@@ -33,9 +37,8 @@ public class Astar {
         Node start = getNode(2, 14, nodes);
         Node end = getNode(9, 1, nodes);
         walkThrough(start, nodes, end);
+        System.out.println(end.getCost());
     }
-
-    int x = 0;
 
     public void walkThrough(Node start, ArrayList<Node> nodes, Node end) {
         if (start.getDistance() == 0) {
@@ -54,7 +57,7 @@ public class Astar {
     }
 
     public Node getNextNode() {
-        open.sort((Node n1, Node n2) -> n1.getCurrentWayWeight() > n2.getCurrentWayWeight() ? 1 : -1);
+        open.sort((Node n1, Node n2) -> n1.getCombinedWeight() > n2.getCombinedWeight() ? 1 : -1);
         return open.get(0);
     }
 
