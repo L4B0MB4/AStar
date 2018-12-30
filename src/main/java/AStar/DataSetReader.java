@@ -10,12 +10,14 @@ import java.util.ArrayList;
 
 public class DataSetReader {
 
-    public static ArrayList<ArrayList<Integer>> readFromCSV(String fileName) {
+    /**
+     * Gets a two dimensional arraylist of integers out of a csv file where the values are split by ";" and new lines split the datasets. Each value has to be an integer.
+     * @param path path to the file 
+     * @return two dimensional arraylist of integeres
+     */
+    public static ArrayList<ArrayList<Integer>> readFromCSV(String path) {
         ArrayList<ArrayList<Integer>> arrayList = new ArrayList<ArrayList<Integer>>();
-        System.out.println(Paths.get(fileName));
-        Path pathToFile = Paths.get(fileName);
-
-        // create an instance of BufferedReader
+        Path pathToFile = Paths.get(path);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
             String line = br.readLine();
 
@@ -34,16 +36,7 @@ public class DataSetReader {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
-        for (int i = 0; i < arrayList.size(); i++) {
-            for (int j = 0; j < arrayList.get(i).size(); j++) {
-                System.out.print(arrayList.get(i).get(j) + " ");
-            }
-            System.out.println();
-        }
-
         return arrayList;
-
     }
 
 }

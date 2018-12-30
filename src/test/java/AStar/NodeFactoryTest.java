@@ -37,7 +37,6 @@ public class NodeFactoryTest {
         ArrayList<Node> list = new ArrayList<>();
         list.add(n);
         NodeFactory.setDistance(list, new Point(5, 1));
-        System.out.println(n.getDistance());
         assertEquals(n.getDistance() == 4.0, true);
     }
 }
