@@ -8,6 +8,8 @@ public class Astar {
 
     public List<Node> open = new ArrayList<>();
     public ArrayList<Node> closed = new ArrayList<>();
+    public int lastSteps = 0;
+
 
     /**
      * 
@@ -22,8 +24,8 @@ public class Astar {
             }
             System.out.println(n.getCost());
             System.out.println(n.getCostThrough(through));
-            if (n.getCost() > n.getCostThrough(through) || n.wentTrough == null) {
-                n.wentTrough = through;
+            if (n.getCost() > n.getCostThrough(through) || n.getWentThrough() == null) {
+                n.setWentThrough(through);;
             }
             if (!open.contains(n)) {
                 open.add(n);
@@ -44,7 +46,7 @@ public class Astar {
             start.markSucess();
             return;
         }
-        increaseWeight(nodes, start);
+        updateWeight(nodes, start);
         ArrayList<Node> neighbours = new ArrayList<>();
         Point startPosition = start.getPosition();
         getNeighbours(neighbours, startPosition, nodes);
@@ -56,9 +58,7 @@ public class Astar {
         walkThrough(next, nodes, end);
     }
 
-    private int lastSteps = 0;
-
-    private void increaseWeight(ArrayList<Node> nodes, Node currentNode) {
+    public void updateWeight(ArrayList<Node> nodes, Node currentNode) {
         int currentSteps = currentNode.getStepsWalked() / 5;
         if (currentSteps < lastSteps) {
             for (Node n : nodes) {
@@ -114,7 +114,7 @@ public class Astar {
         System.out.println();
         System.out.println();
         for (int i = 0; i < nodes.size(); i++) {
-            if (nodes.get(i).wentTrough == null)
+            if (nodes.get(i).getWentThrough() == null)
                 System.out.printf("%4.1f ", nodes.get(i).getWeight());
             else if (nodes.get(i).success)
                 System.out.printf(" !   ", nodes.get(i).getWeight());

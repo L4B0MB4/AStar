@@ -23,7 +23,7 @@ public class Node {
     /**
      * The node you went through, to get to this node.
      */
-    public Node wentTrough = null;
+    private Node wentTrough = null;
     /**
      * Is this node on the way to the goal?
      */
@@ -62,6 +62,17 @@ public class Node {
             this.wentTrough.markSucess();
         }
     }
+    /**
+     * Gets the steps that you have walked until this node
+     * @return steps walked until here
+     */
+    public int getStepsWalked() {
+        if (this.wentTrough != null) {
+            return 1 + this.wentTrough.getStepsWalked();
+        } else {
+            return 0;
+        }
+    }
 
     double getCostThrough(Node through) {
         return through.getCost() + this.getWeight();
@@ -95,11 +106,13 @@ public class Node {
         this.weight = weight;
     }
 
-    public int getStepsWalked() {
-        if (this.wentTrough != null) {
-            return 1 + this.wentTrough.getStepsWalked();
-        } else {
-            return 0;
-        }
+    public Node getWentThrough()
+    {
+        return wentTrough;
+    }
+
+    public void setWentThrough(Node n)
+    {
+        this.wentTrough =n;
     }
 }
