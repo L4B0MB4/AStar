@@ -10,7 +10,6 @@ public class Astar {
     public ArrayList<Node> closed = new ArrayList<>();
     public int lastSteps = 0;
 
-
     /**
      * 
      * @param neighbours
@@ -22,10 +21,11 @@ public class Astar {
             if (closed.contains(n)) {
                 continue;
             }
-            System.out.println(n.getCost());
-            System.out.println(n.getCostThrough(through));
+            //System.out.println(n.getCost());
+            //System.out.println(n.getCostThrough(through));
             if (n.getCost() > n.getCostThrough(through) || n.getWentThrough() == null) {
-                n.setWentThrough(through);;
+                n.setWentThrough(through);
+                ;
             }
             if (!open.contains(n)) {
                 open.add(n);
@@ -34,7 +34,7 @@ public class Astar {
         }
     }
 
-    public void start(Point startPoint, Point endPoint,ArrayList<Node> nodes) {
+    public void start(Point startPoint, Point endPoint, ArrayList<Node> nodes) {
         Node start = getNode(startPoint.x, startPoint.y, nodes);
         Node end = getNode(endPoint.x, endPoint.y, nodes);
         walkThrough(start, nodes, end);
@@ -109,19 +109,40 @@ public class Astar {
     }
 
     public void print(ArrayList<Node> nodes) {
-
         System.out.println();
         System.out.println();
+        System.out.printf("    ");
         for (int i = 0; i < nodes.size(); i++) {
-            if (nodes.get(i).getWentThrough() == null)
+            System.out.printf("%4d ", i);
+            if (nodes.get(i).getPosition().y != nodes.get(i + 1).getPosition().y) {
+                System.out.println();
+                break;
+            }
+        }
+        System.out.printf("    ");
+        for (int i = 0; i < nodes.size(); i++) {
+            System.out.printf("_____", i);
+            if (nodes.get(i).getPosition().y != nodes.get(i + 1).getPosition().y) {
+                System.out.println();
+                break;
+            }
+        }
+        
+        System.out.printf("%3d| ",0);
+
+        int countLines=1;
+        for (int i = 0; i < nodes.size(); i++) {
+            if (nodes.get(i).success)
+                System.out.printf(" !   ");
+            else if (nodes.get(i).getWentThrough() == null)
                 System.out.printf("%4.1f ", nodes.get(i).getWeight());
-            else if (nodes.get(i).success)
-                System.out.printf(" !   ", nodes.get(i).getWeight());
             else
                 System.out.printf(" x   ", nodes.get(i).getWeight());
             if (i + 1 < nodes.size()) {
                 if (nodes.get(i).getPosition().y != nodes.get(i + 1).getPosition().y) {
                     System.out.println();
+                    System.out.printf("%3d| ",countLines);
+                    countLines++;
                 }
             }
         }
