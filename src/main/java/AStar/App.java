@@ -2,6 +2,9 @@ package AStar;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.commons.cli.*;
 
 /**
  * Hello world!
@@ -14,26 +17,17 @@ public final class App {
      * @param args The arguments of the program.
      */
     public static void main(String[] args) {
-        ArrayList<ArrayList<Integer>> data = DataSetReader
-                .readFromCSV(System.getProperty("user.dir") + "\\assets\\dataset.csv");
+
+        HashMap<String,Object> arguments = handleArguments(args);
+        ArrayList<ArrayList<Integer>> data = DataSetReader.readFromCSV((String)arguments.get("inputFile"));
         ArrayList<Node> nodes = NodeFactory.createNodes(data);
-        NodeFactory.setDistance(nodes, new Point(9, 1));
-
-        for (int i = 0; i < nodes.size(); i++) {
-            // System.out.printf("%4.1f ", nodes.get(i).getWeight());
-            System.out.printf("%4.1f ", nodes.get(i).getDistance());
-            if (i + 1 < nodes.size()) {
-                if (nodes.get(i).getPosition().y != nodes.get(i + 1).getPosition().y) {
-                    System.out.println();
-                }
-            }
-        }
-        System.out.println();
+        Point startPoint = (Point)arguments.get("start");
+        Point endPoint = (Point) arguments.get("end");
+        NodeFactory.setDistance(nodes,endPoint);
         Astar astar = new Astar();
-        astar.start(nodes);
+        astar.start(startPoint,endPoint,nodes);
         astar.print(nodes);
-        System.out.println();
-
+        /*System.out.println();
         System.out.println();
         for (int i = 0; i < nodes.size(); i++) {
             // System.out.printf("%4.1f ", nodes.get(i).getWeight());
@@ -43,6 +37,58 @@ public final class App {
                     System.out.println();
                 }
             }
+        }*/
+    }
+
+    private static HashMap<String,Object> handleArguments(String[] args) {
+        HashMap<String,Object> arguments = new HashMap<>();
+        Options options = setUpOptions();
+        CommandLineParser parser = new DefaultParser();
+        HelpFormatter formatter = new HelpFormatter();
+        CommandLine cmd;
+        try {
+            cmd = parser.parse(options, args);
+            String startPoint = cmd.getOptionValue("start");
+            String endPoint = cmd.getOptionValue("end");
+            String inputFile = cmd.getOptionValue("file");
+            arguments.put("end",createPoint(endPoint));
+            arguments.put("start",createPoint(startPoint));
+            arguments.put("inputFile",inputFile);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+            formatter.printHelp("starting utilites", options);
+            System.exit(1);
         }
+        return arguments;
+    }
+
+    private static Options setUpOptions()
+    {
+        Options options = new Options();
+        Option start = new Option("s", "start", true, "starting point e.g. 14;2");
+        start.setRequired(true);
+        options.addOption(start);
+        Option end = new Option("e", "end", true, "end point e.g. 9;1");
+        end.setRequired(true);
+        options.addOption(end);
+        Option inputFile = new Option("f", "file", true, "input file with coordinate system in form of a .csv");
+        inputFile.setRequired(true);
+        options.addOption(inputFile);
+        return options;
+    }
+    private static Point createPoint(String point)
+    {
+        String[] koords = point.split(";");
+        try
+        {
+            Point p = new Point(Integer.parseInt(koords[0]),Integer.parseInt(koords[1]));
+            return p;
+        }
+        catch(Exception exception)
+        {
+            System.out.println("There was an error parsing this Point: '"+ point+ "' make sure the syntax looks like this -> X;Y ");
+            System.exit(2);
+        }
+        return null;
     }
 }

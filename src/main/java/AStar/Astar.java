@@ -34,11 +34,10 @@ public class Astar {
         }
     }
 
-    public void start(ArrayList<Node> nodes) {
-        Node start = getNode(2, 14, nodes);
-        Node end = getNode(9, 1, nodes);
+    public void start(Point startPoint, Point endPoint,ArrayList<Node> nodes) {
+        Node start = getNode(startPoint.x, startPoint.y, nodes);
+        Node end = getNode(endPoint.x, endPoint.y, nodes);
         walkThrough(start, nodes, end);
-        System.out.println(end.getCost());
     }
 
     public void walkThrough(Node start, ArrayList<Node> nodes, Node end) {
