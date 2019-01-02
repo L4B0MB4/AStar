@@ -14,7 +14,17 @@ public class NodeFactory {
         ArrayList<Node> nodes = new ArrayList<>();
         for (int y = 0; y < dataset.size(); y++) {
             for (int x = 0; x < dataset.get(y).size(); x++) {
-                Node n = new Node(new Point(x, y), dataset.get(y).get(x));
+                int value=Integer.MAX_VALUE;
+                switch(dataset.get(y).get(x))
+                {
+                    case 0: value =4;break;
+                    case 1:value =7; break;
+                    case 2:value =2; break;
+                    case 3:value =5; break;
+                    case 4:value =3; break;
+                    case 5:value =17; break;
+                }
+                Node n = new Node(new Point(x, y),value);
                 nodes.add(n);
             }
         }

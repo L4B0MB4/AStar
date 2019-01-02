@@ -38,6 +38,7 @@ public class Astar {
         Node start = getNode(startPoint.x, startPoint.y, nodes);
         Node end = getNode(endPoint.x, endPoint.y, nodes);
         walkThrough(start, nodes, end);
+        System.out.println(end.getCost());
     }
 
     public void walkThrough(Node start, ArrayList<Node> nodes, Node end) {
