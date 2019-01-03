@@ -21,8 +21,8 @@ public class Astar {
             if (closed.contains(n)) {
                 continue;
             }
-            //System.out.println(n.getCost());
-            //System.out.println(n.getCostThrough(through));
+            // System.out.println(n.getCost());
+            // System.out.println(n.getCostThrough(through));
             if (n.getCost() > n.getCostThrough(through) || n.getWentThrough() == null) {
                 n.setWentThrough(through);
                 ;
@@ -39,6 +39,8 @@ public class Astar {
         Node end = getNode(endPoint.x, endPoint.y, nodes);
         walkThrough(start, nodes, end);
         System.out.println(end.getCost());
+        end.printPathWeight();
+
     }
 
     public void walkThrough(Node start, ArrayList<Node> nodes, Node end) {
@@ -128,10 +130,10 @@ public class Astar {
                 break;
             }
         }
-        
-        System.out.printf("%3d| ",0);
 
-        int countLines=1;
+        System.out.printf("%3d| ", 0);
+
+        int countLines = 1;
         for (int i = 0; i < nodes.size(); i++) {
             if (nodes.get(i).success)
                 System.out.printf(" !   ");
@@ -142,7 +144,7 @@ public class Astar {
             if (i + 1 < nodes.size()) {
                 if (nodes.get(i).getPosition().y != nodes.get(i + 1).getPosition().y) {
                     System.out.println();
-                    System.out.printf("%3d| ",countLines);
+                    System.out.printf("%3d| ", countLines);
                     countLines++;
                 }
             }

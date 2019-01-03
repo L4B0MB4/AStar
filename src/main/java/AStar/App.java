@@ -18,30 +18,32 @@ public final class App {
      */
     public static void main(String[] args) {
 
-        HashMap<String,Object> arguments = handleArguments(args);
-        ArrayList<ArrayList<Integer>> data = DataSetReader.readFromCSV((String)arguments.get("inputFile"));
+        HashMap<String, Object> arguments = handleArguments(args);
+        ArrayList<ArrayList<Integer>> data = DataSetReader.readFromCSV((String) arguments.get("inputFile"));
         ArrayList<Node> nodes = NodeFactory.createNodes(data);
-        Point startPoint = (Point)arguments.get("start");
+        Point startPoint = (Point) arguments.get("start");
         Point endPoint = (Point) arguments.get("end");
-        NodeFactory.setDistance(nodes,endPoint);
+        NodeFactory.setDistance(nodes, endPoint);
         Astar astar = new Astar();
-        astar.start(startPoint,endPoint,nodes);
+        astar.start(startPoint, endPoint, nodes);
         astar.print(nodes);
-        /*System.out.println();
         System.out.println();
-        for (int i = 0; i < nodes.size(); i++) {
-            // System.out.printf("%4.1f ", nodes.get(i).getWeight());
-            System.out.printf("%4.1f ", nodes.get(i).getWeight());
-            if (i + 1 < nodes.size()) {
-                if (nodes.get(i).getPosition().y != nodes.get(i + 1).getPosition().y) {
-                    System.out.println();
-                }
-            }
-        }*/
+        System.out.println();
+        System.out.println(
+                "!!! Das Start-Planquadrat wird mitgezählt bei der Wegberechnung, deshalb kann es zu einer kleinen Abweichung der Kosten kommen, falls dies nicht so gedacht war !!!");
+        System.out.println();
+        System.out.println();
+        /*
+         * System.out.println(); System.out.println(); for (int i = 0; i < nodes.size();
+         * i++) { // System.out.printf("%4.1f ", nodes.get(i).getWeight());
+         * System.out.printf("%4.1f ", nodes.get(i).getWeight()); if (i + 1 <
+         * nodes.size()) { if (nodes.get(i).getPosition().y != nodes.get(i +
+         * 1).getPosition().y) { System.out.println(); } } }
+         */
     }
 
-    private static HashMap<String,Object> handleArguments(String[] args) {
-        HashMap<String,Object> arguments = new HashMap<>();
+    private static HashMap<String, Object> handleArguments(String[] args) {
+        HashMap<String, Object> arguments = new HashMap<>();
         Options options = setUpOptions();
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -51,9 +53,9 @@ public final class App {
             String startPoint = cmd.getOptionValue("start");
             String endPoint = cmd.getOptionValue("end");
             String inputFile = cmd.getOptionValue("file");
-            arguments.put("end",createPoint(endPoint));
-            arguments.put("start",createPoint(startPoint));
-            arguments.put("inputFile",inputFile);
+            arguments.put("end", createPoint(endPoint));
+            arguments.put("start", createPoint(startPoint));
+            arguments.put("inputFile", inputFile);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             formatter.printHelp("starting utilites", options);
@@ -62,8 +64,7 @@ public final class App {
         return arguments;
     }
 
-    private static Options setUpOptions()
-    {
+    private static Options setUpOptions() {
         Options options = new Options();
         Option start = new Option("s", "start", true, "starting point e.g. 14;2");
         start.setRequired(true);
@@ -76,17 +77,15 @@ public final class App {
         options.addOption(inputFile);
         return options;
     }
-    private static Point createPoint(String point)
-    {
+
+    private static Point createPoint(String point) {
         String[] koords = point.split(";");
-        try
-        {
-            Point p = new Point(Integer.parseInt(koords[0]),Integer.parseInt(koords[1]));
+        try {
+            Point p = new Point(Integer.parseInt(koords[0]), Integer.parseInt(koords[1]));
             return p;
-        }
-        catch(Exception exception)
-        {
-            System.out.println("There was an error parsing this Point: '"+ point+ "' make sure the syntax looks like this -> X;Y ");
+        } catch (Exception exception) {
+            System.out.println("There was an error parsing this Point: '" + point
+                    + "' make sure the syntax looks like this -> X;Y ");
             System.exit(2);
         }
         return null;

@@ -62,8 +62,10 @@ public class Node {
             this.wentTrough.markSucess();
         }
     }
+
     /**
      * Gets the steps that you have walked until this node
+     * 
      * @return steps walked until here
      */
     public int getStepsWalked() {
@@ -106,13 +108,18 @@ public class Node {
         this.weight = weight;
     }
 
-    public Node getWentThrough()
-    {
+    public Node getWentThrough() {
         return wentTrough;
     }
 
-    public void setWentThrough(Node n)
-    {
-        this.wentTrough =n;
+    public void setWentThrough(Node n) {
+        this.wentTrough = n;
+    }
+
+    public void printPathWeight() {
+        System.out.print(getWeight() + " - ");
+        if (wentTrough != null) {
+            wentTrough.printPathWeight();
+        }
     }
 }
