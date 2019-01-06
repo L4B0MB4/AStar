@@ -11,8 +11,11 @@ import java.util.ArrayList;
 public class DataSetReader {
 
     /**
-     * Gets a two dimensional arraylist of integers out of a csv file where the values are split by ";" and new lines split the datasets. Each value has to be an integer.
-     * @param path path to the file 
+     * Gets a two dimensional arraylist of integers out of a csv file where the
+     * values are split by ";" and new lines split the datasets. Each value has to
+     * be an integer.
+     * 
+     * @param path path to the file
      * @return two dimensional arraylist of integeres
      */
     public static ArrayList<ArrayList<Integer>> readFromCSV(String path) {
@@ -34,7 +37,7 @@ public class DataSetReader {
             }
 
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            return new ArrayList<>();
         }
         return arrayList;
     }
