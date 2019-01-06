@@ -23,10 +23,13 @@ public final class App {
         ArrayList<Node> nodes = NodeFactory.createNodes(data);
         Point startPoint = (Point) arguments.get("start");
         Point endPoint = (Point) arguments.get("end");
+        boolean printSteps = (boolean) arguments.get("printSteps");
         NodeFactory.setDistance(nodes, endPoint);
         Astar astar = new Astar();
-        astar.start(startPoint, endPoint, nodes);
+        Node end = astar.start(startPoint, endPoint, nodes, printSteps);
         astar.print(nodes);
+        System.out.println();
+        System.out.printf("Cost: %4.3f", end.getCost());
         System.out.println();
         System.out.println();
         System.out.println(
@@ -42,6 +45,12 @@ public final class App {
          */
     }
 
+    /**
+     * Handles the input arguments
+     * 
+     * @param args input arguments from main method
+     * @return Hashmap with recognized values
+     */
     private static HashMap<String, Object> handleArguments(String[] args) {
         HashMap<String, Object> arguments = new HashMap<>();
         Options options = setUpOptions();
@@ -53,9 +62,11 @@ public final class App {
             String startPoint = cmd.getOptionValue("start");
             String endPoint = cmd.getOptionValue("end");
             String inputFile = cmd.getOptionValue("file");
+            boolean printSteps = cmd.hasOption("print");
             arguments.put("end", createPoint(endPoint));
             arguments.put("start", createPoint(startPoint));
             arguments.put("inputFile", inputFile);
+            arguments.put("printSteps", printSteps);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             formatter.printHelp("starting utilites", options);
@@ -63,6 +74,12 @@ public final class App {
         }
         return arguments;
     }
+
+    /**
+     * Creates all available input options
+     * 
+     * @return
+     */
 
     private static Options setUpOptions() {
         Options options = new Options();
@@ -75,9 +92,18 @@ public final class App {
         Option inputFile = new Option("f", "file", true, "input file with coordinate system in form of a .csv");
         inputFile.setRequired(true);
         options.addOption(inputFile);
+        Option printSteps = new Option("p", "print", false, " Add if you want to see every step printed out");
+        printSteps.setRequired(false);
+        options.addOption(printSteps);
         return options;
     }
 
+    /**
+     * Creates a point by a given string in format of "x;y"
+     * 
+     * @param point string in fromat "x;y"
+     * @return java.awt.Point
+     */
     private static Point createPoint(String point) {
         String[] koords = point.split(";");
         try {

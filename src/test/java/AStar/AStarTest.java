@@ -13,55 +13,52 @@ import java.util.ArrayList;
 public class AStarTest {
     @Test
     /**
-     * Tests if checkNeighbours works correctly by ensuring if the wentThrough Property is set when its null or the way costs are less through the 'cheat' node
+     * Tests if checkNeighbours works correctly by ensuring if the wentThrough
+     * Property is set when its null or the way costs are less through the 'cheat'
+     * node
      */
     public void testCheckNeighbours() {
         Astar astar = new Astar();
         ArrayList<Node> nodes = createSimpleNodes();
-        ArrayList<Node> neighbours = new ArrayList<>();
-        astar.getNeighbours(neighbours, nodes.get(0).getPosition(), nodes);
+        ArrayList<Node> neighbours = astar.getNeighbours(nodes.get(0), nodes);
         astar.checkNeighbours(neighbours, nodes.get(0));
         for (Node n : neighbours) {
-            assertTrue(n.getWentThrough()!=null);
+            assertTrue(n.getWentThrough() != null);
         }
-        Node cheat = new Node(new Point(0,2), -10);
-        neighbours = new ArrayList<>();
-        astar.getNeighbours(neighbours, cheat.getPosition(), nodes);
+        Node cheat = new Node(new Point(0, 2), -10);
+        neighbours = astar.getNeighbours(cheat, nodes);
         astar.checkNeighbours(neighbours, cheat);
         for (Node n : neighbours) {
-            assertTrue(n.getWentThrough()==cheat);
+            assertTrue(n.getWentThrough() == cheat);
         }
     }
 
     @Test
     /**
-     * Makes sure, that always the right amount of neighbours are choosen. 
+     * Makes sure, that always the right amount of neighbours are choosen.
      */
-    public void testGetNeighbours()
-    {
+    public void testGetNeighbours() {
         Astar astar = new Astar();
         ArrayList<Node> nodes = createSimpleNodes();
-        ArrayList<Node> neighbours = new ArrayList<>();
-        astar.getNeighbours(neighbours, nodes.get(0).getPosition(), nodes);
-        assertSame(neighbours.size(),2);
-        Node cheat = new Node(new Point(0,2), -10);
-        neighbours = new ArrayList<>();
-        astar.getNeighbours(neighbours, cheat.getPosition(), nodes);
-        assertSame(neighbours.size(),1);
+        ArrayList<Node> neighbours = astar.getNeighbours(nodes.get(0), nodes);
+        assertSame(neighbours.size(), 2);
+        Node cheat = new Node(new Point(0, 2), -10);
+        neighbours = astar.getNeighbours(cheat, nodes);
+        assertSame(neighbours.size(), 1);
     }
 
     /**
      * Creates the first 4 nodes (0,0;0,1;1,0;1,1) from the csv - hard coded
+     * 
      * @return
      */
 
-    public ArrayList<Node> createSimpleNodes()
-    {
-        Node s = new Node(new Point(0,0),5);
-        Node a = new Node(new Point(1,0), 1);
-        Node b = new Node(new Point(0,1),5);
-        Node end = new Node(new Point(1,1),1);
-        ArrayList<Node> nodes= new ArrayList<>();
+    public ArrayList<Node> createSimpleNodes() {
+        Node s = new Node(new Point(0, 0), 5);
+        Node a = new Node(new Point(1, 0), 1);
+        Node b = new Node(new Point(0, 1), 5);
+        Node end = new Node(new Point(1, 1), 1);
+        ArrayList<Node> nodes = new ArrayList<>();
         nodes.add(s);
         nodes.add(a);
         nodes.add(b);
@@ -70,22 +67,20 @@ public class AStarTest {
         return nodes;
     }
 
-
     @Test
     /**
      * Makes sure, that the way is updated properly after 5 steps
      */
-    public void testUpdateWeight()
-    {
+    public void testUpdateWeight() {
         Astar astar = new Astar();
-        Node a1 = new Node(new Point(0,2), -10);
-        Node a2 = new Node(new Point(0,2), -10);
-        Node a3 = new Node(new Point(0,2), -10);
-        Node a4 = new Node(new Point(0,2), -10);
-        Node a5 = new Node(new Point(0,2), -10);
-        Node a6 = new Node(new Point(0,2), -10);
-        Node a7= new Node(new Point(0,2), -10);
-        ArrayList<Node> nodes =new ArrayList<>();
+        Node a1 = new Node(new Point(0, 2), -10);
+        Node a2 = new Node(new Point(0, 2), -10);
+        Node a3 = new Node(new Point(0, 2), -10);
+        Node a4 = new Node(new Point(0, 2), -10);
+        Node a5 = new Node(new Point(0, 2), -10);
+        Node a6 = new Node(new Point(0, 2), -10);
+        Node a7 = new Node(new Point(0, 2), -10);
+        ArrayList<Node> nodes = new ArrayList<>();
         nodes.add(a7);
         nodes.add(a6);
         nodes.add(a5);
