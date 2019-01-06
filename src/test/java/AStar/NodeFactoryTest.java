@@ -23,7 +23,7 @@ public class NodeFactoryTest {
         list.add(aList);
         ArrayList<Node> nodes = NodeFactory.createNodes(list);
         assertEquals(nodes.size(), 1);
-        assertTrue(nodes.get(0).getWeight() ==3);
+        assertTrue(nodes.get(0).getWeight() == 5);
     }
 
     @Test
